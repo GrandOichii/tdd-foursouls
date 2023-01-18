@@ -1,0 +1,5 @@
+{
+    "db": "mongodb://127.0.0.1/test",
+    "jwtKey": "jwt",
+    "port": 3000
+}
