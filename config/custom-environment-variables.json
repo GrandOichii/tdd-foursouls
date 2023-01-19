@@ -1,3 +1,4 @@
 {
-    "jwtKey": "foursouls_jwtKey"
+    "jwtKey": "foursouls_jwtKey",
+    "db": "foursouls_db"
 }

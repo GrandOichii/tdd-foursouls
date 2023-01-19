@@ -1,31 +1,31 @@
 import mongoose from 'mongoose'
 import request from 'supertest'
 
-import {app, server} from '../../index'
+import {createUser} from '../util'
+import {app} from '../../index'
 import {Card, CARD_TYPES} from '../../models/card'
 import shutdown from '../../shutdown'
+import { User } from '../../models/user'
 
 
 describe('/api/cards', () => {
 
-    async function postCard(card) {
-        const response = await request(app).post('/api/cards').send(card)
-            .expect(200)
+    let token = ''
+
+    async function postCard(card, code=200) {
+        const response = await request(app).post('/api/cards').set('x-auth-token', token).send(card)
+            .expect(code)
+        if (('' + code).startsWith('4')) return
         expect(response.body).toMatchObject(card)
     }
 
-    async function badPost(card) {
-        await request(app).post('/api/cards').send(card)
-            .expect(400)
-    }
-    
-
-    beforeEach(async () => {
-        // remove all cards
-        await Card.deleteMany({})
-    })
-
     describe('GET', () => {
+        beforeAll(async () => {
+            await createUser(app, {login: 'login', email: 'example@mail.com', password: 'pass'})
+            const resp = await request(app).post('/api/auth').send({login: 'login', password: 'pass'}).expect(200)
+            token = resp.text
+        })
+
         it('should return all cards', async () => {
             const response = await request(app).get('/api/cards')
                 .expect(200)
@@ -52,30 +52,69 @@ describe('/api/cards', () => {
                     .expect(200)
             })
         })
+
+        afterEach(async () => {
+            Card.deleteMany({})
+        })
+        
+        afterAll(async () => {
+            User.deleteMany({})
+        })
         
     })
 
     describe('POST', () => {
-        it('should post a card', async () => {
-            const card = {name: '4 cents!', text: 'Gain 4$.', ctype: 'loot'}
+        const basicCard = {name: '4 cents!', text: 'Gain 4$.', ctype: 'loot'}
 
-            // post card
-            await postCard(card)
-
-            // fetch cards, amount should be 1
-            const response = await request(app).get('/api/cards')
-                .expect(200)
-            expect(response.body.length).toBe(1)
-            // expect(response.body).toMatchObject(card)
+        beforeAll(() => {
+            token = ''
         })
 
-        it('should return 400 when posting bad card', async () => {
-            await badPost({})
-            await badPost({name: 'c1', text: 't1'})
-            await badPost({ctype: 'loot', text: 't1'})
-            await badPost({ctype: 'loot', text: 't1'})
-            await badPost({name: 'n1', ctype: '-', text: 't1'})
+        it('shouldn\'t post card without a token', async() => {
+            await postCard(basicCard, 401)
         })
+
+        describe('with valid token', () => {
+            beforeAll(async () => {
+                await User.deleteMany({})
+                await Card.deleteMany({})
+                await createUser(app, {login: 'login', email: 'example@mail.com', password: 'pass'})
+                const resp = await request(app).post('/api/auth').send({login: 'login', password: 'pass'}).expect(200)
+                token = resp.text
+            })
+
+            it('should post a card', async () => {
+    
+                // post card
+                await postCard(basicCard)
+    
+                // fetch cards, amount should be 1
+                const response = await request(app).get('/api/cards')
+                    .expect(200)
+                expect(response.body.length).toBe(1)
+                // expect(response.body).toMatchObject(card)
+            })
+    
+            it('should return 400 when posting bad card', async () => {
+                await postCard({}, 400)
+                await postCard({name: 'c1', text: 't1'}, 400)
+                await postCard({ctype: 'loot', text: 't1'}, 400)
+                await postCard({ctype: 'loot', text: 't1'}, 400)
+                await postCard({name: 'n1', ctype: '-', text: 't1'}, 400)
+            })
+
+            afterAll(async () => {
+                await User.deleteMany({})
+            })
+        })
+
+        afterAll(async () => {
+            // remove all cards
+            await Card.deleteMany({})
+        })
+    
+
+
     })
 
     afterAll(async () => {

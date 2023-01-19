@@ -1,5 +1,5 @@
 import express from 'express'
-import { loginSchema, User } from '../models/user'
+import { loginSchema, User } from '../models/user.js'
 import bcrypt from 'bcrypt'
 
 

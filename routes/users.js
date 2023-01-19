@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import express from 'express'
-import { User, validationSchema } from '../models/user'
+import { User, validationSchema } from '../models/user.js'
 
 const router = express.Router()
 
@@ -17,7 +17,9 @@ router.post('', async (req, res) => {
     try {
         await user.save()
         res.send(user)
-    } catch (ex) {res.status(400).send(error)}
+    } catch (ex) {
+        res.status(400).send(ex)
+    }
 })
 
 export default router

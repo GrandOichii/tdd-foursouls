@@ -1,5 +1,6 @@
 import express from 'express'
 import { Card, CARD_TYPES, validationSchema} from '../models/card.js'
+import auth from '../middleware/auth'
 
 const router = express.Router()
 
@@ -15,12 +16,13 @@ CARD_TYPES.forEach(type => {
     })
 })
 
-router.post('', async(req, res) => {
+router.post('', auth, async(req, res) => {
     const {error} = validationSchema.validate(req.body)
     if (error) return res.status(400).send(error)
 
     const card = new Card(req.body)
     await card.save()
+    // console.log(card);
     res.send(card)
 })
 
