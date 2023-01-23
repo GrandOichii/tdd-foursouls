@@ -1,0 +1,14 @@
+{
+    "treasure": {
+        "backgrounds": [
+            "./front/src/assets/brain.png",
+            "./front/src/assets/cain.png"
+        ]
+    },
+    "loot": {
+        "backgrounds": []
+    },
+    "monster": {
+        "backgrounds": []
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "treasure": {
+        "backgrounds": [
+            "https://gcdnb.pbrd.co/images/S7Y73blvNBVz.png?o=1",
+            "https://gcdnb.pbrd.co/images/ae36596pOLkx.png?o=1"
+        ]
+    },
+    "loot": {
+        "backgrounds": []
+    },
+    "monster": {
+        "backgrounds": []
+    }
+}

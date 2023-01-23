@@ -36,7 +36,7 @@ CARD_TYPES.forEach(type => {
     }
 })
 
-const collectionSchema = mongoose.Schema(scm)
+const collectionSchema = mongoose.Schema(csm)
 const Collection = mongoose.model('Collection', collectionSchema)
 
 const validationSchema = Joi.object(vsm)

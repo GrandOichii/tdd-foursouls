@@ -1,0 +1,63 @@
+@font-face {
+    font-family: 'FourSoulsTitle';
+    src: url('../../../public/fonts/Font_soulsV2_Title-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'FourSoulsBody';
+    src: url('../../../public/fonts/Font_soulsV2_Body-Regular.ttf');
+}
+
+
+.card-name-box {
+    /* outline: red 2px solid; */
+    position: absolute;
+
+    height: 40px;
+    width: 340px;
+
+    top: 7%;
+    /* transform: translate(-50%, 0%); */
+
+
+    font-family: 'FourSoulsTitle';
+    font-size: 2rem;
+
+    text-align: center;
+}
+
+.card-name {
+    position: relative;
+    /* top: 7%; */
+    /* left: 50%; */
+    /* text-size-adjust: 10vw; */
+    /* outline: green 2px solid; */
+    
+}
+
+
+.card-text-box {
+    /* outline: red 2px solid; */
+    position: absolute;
+
+    /* width: 60%; */
+    /* height: 28%; */
+    
+    height: 170px;
+    width: 340px;
+
+    top: 77%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-family: 'FourSoulsBody';
+    font-size: 1.52rem;
+    white-space: pre-wrap;
+
+    overflow-wrap: break-word;
+    text-align: center;
+}
+
+.card-text {
+    
+}

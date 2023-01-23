@@ -1,0 +1,40 @@
+
+.button {
+    margin: 10px;
+    width: 100px;
+    padding: 10px;    
+}
+
+.book-layout {
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.card-container {
+    position: relative;
+    justify-content: center;
+    display: flex;
+
+    width: 500px;
+    height: 600px;
+}
+
+.card-text-edit {
+    width: 700px;
+    height: 400px;
+}
+
+.mini-bg {
+    width: 10%;
+    height: 10%;
+    padding: 10px;
+}
+
+.selected-bg {
+    outline: 2px solid green;
+}
+
+*{
+    /* outline: red 2px solid; */
+}
